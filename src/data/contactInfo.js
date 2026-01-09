@@ -1,32 +1,32 @@
 const contactInfo = {
-  companyName: "PURE RUSH LLC",
-  companyNameShort: "Pure Rush",
+  companyName: "YSJ SERVICES LLC",
+  companyNameShort: "YSJ Services",
 
   businessEntityType: "Limited Liability Company (LLC)",
-  industry: "Digital Marketing",
+  industry: "Digital Services", // Adjust if needed
 
-  contactPerson: "Dinda Sukmawati",
+  contactPerson: "Rosmiyati Rosmiyati",
   contactPersonRole: "Owner",
 
-  tagline: "Fast, Focused, Results-Driven Marketing.",
+  tagline: "Professional, Reliable, Service-Oriented.",
 
   description:
-    "PURE RUSH LLC is a digital marketing agency providing SEO, paid advertising, branding, social media marketing, and data-driven digital strategies to help businesses grow quickly and sustainably.",
+    "YSJ SERVICES LLC provides dependable services designed to support business operations, communication, and client management with a focus on reliability and efficiency.",
 
-  email: "aryanamang1573@outlook.com",
-  phone: "+1 2085454128",
+  email: "bessiebusboom2670pro@outlook.com",
+  phone: "+1 2029794912",
 
   address:
-    "4990 New Broad St, Orlando, FL 32814, United States of America",
+    "850 West 74 St 112, Hialeah, FL 33014, United States of America",
 
   registeredAddress:
-    "4990 New Broad St, Orlando, FL 32814, United States of America",
+    "850 West 74 St 112, Hialeah, FL 33014, United States of America",
 
   businessHours: "Mon–Fri: 9:00 AM – 6:00 PM EST",
 
-  // Google Maps Embed (Orlando, FL 32814)
+  // Google Maps Embed (Hialeah, FL 33014)
   location:
-    "https://www.google.com/maps?q=4990+New+Broad+St,+Orlando,+FL+32814,+USA&output=embed",
+    "https://www.google.com/maps?q=850+West+74+St+112,+Hialeah,+FL+33014,+USA&output=embed",
 };
 
 export default contactInfo;
