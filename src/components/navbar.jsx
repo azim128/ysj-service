@@ -7,33 +7,49 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
+  // Handle Scroll Appearance
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Handle Body Scroll Lock when Menu is Open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [isOpen]);
+
   return (
     <>
       <nav
-        className={`fixed top-4 left-0 right-0 z-50 transition-all duration-300 px-4 ${
+        // Added w-full and max-w-full to prevent horizontal overflow
+        className={`fixed top-4 left-0 right-0 w-full z-50 transition-all duration-300 px-4 ${
           scrolled ? "py-0" : "py-2"
         }`}
       >
         <div
-          className={`max-w-5xl mx-auto rounded-full border transition-all duration-300 ${
+          // Added overflow-hidden to the container to contain children
+          className={`max-w-5xl w-full mx-auto rounded-full border transition-all duration-300 ${
             scrolled
               ? "bg-card/80 border-border/50 backdrop-blur-xl shadow-lg py-3 px-6"
               : "bg-transparent border-transparent py-4 px-4"
           }`}
         >
-          <div className="flex justify-between items-center">
+          <div className="flex justify-between items-center w-full">
             {/* Logo */}
-            <Link to="/" className="flex items-center space-x-2">
+            <Link to="/" className="flex items-center space-x-2 shrink-0">
               <img
                 src="logo.png"
                 alt="Logo"
-                className="h-16 w-auto object-cover rounded-lg"
+                // Added max-w constraints to ensure logo doesn't push width on small screens
+                className="h-10 md:h-16 w-auto object-contain rounded-lg max-w-[150px]"
                 onError={(e) => (e.target.style.display = "none")}
               />
             </Link>
@@ -51,8 +67,8 @@ export default function Navbar() {
               ))}
             </div>
 
-            {/* CTA Button */}
-            <div className="hidden md:block">
+            {/* CTA Button - Desktop */}
+            <div className="hidden md:block shrink-0">
               <Link
                 to="/contact-us"
                 className="group flex items-center space-x-2 px-5 py-2.5 bg-primary text-primary-foreground rounded-full text-sm font-medium hover:bg-accent transition-all shadow-md hover:shadow-xl"
@@ -65,10 +81,11 @@ export default function Navbar() {
               </Link>
             </div>
 
-            {/* Mobile Menu Button */}
+            {/* Mobile Menu Toggle Button */}
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="md:hidden p-2 text-foreground hover:bg-secondary rounded-full transition-colors"
+              className="md:hidden p-2 text-foreground hover:bg-secondary rounded-full transition-colors shrink-0"
+              aria-label="Toggle menu"
             >
               {isOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
@@ -77,30 +94,35 @@ export default function Navbar() {
       </nav>
 
       {/* Mobile Menu Overlay */}
-      {isOpen && (
-        <div className="fixed inset-0 z-40 bg-background/95 backdrop-blur-md pt-24 px-6 md:hidden">
-          <div className="flex flex-col space-y-4">
-            {data.navigation.map((item) => (
-              <Link
-                key={item.name}
-                to={item.path}
-                onClick={() => setIsOpen(false)}
-                className="text-2xl font-medium text-foreground hover:text-primary transition-colors"
-              >
-                {item.name}
-              </Link>
-            ))}
-            <hr className="border-border" />
+      {/* Changed logic: fixed inset-0 ensures it fills screen exactly without overflow */}
+      <div
+        className={`fixed inset-0 z-40 bg-background/95 backdrop-blur-md pt-28 px-6 md:hidden transition-all duration-300 ease-in-out ${
+          isOpen
+            ? "opacity-100 visible pointer-events-auto"
+            : "opacity-0 invisible pointer-events-none"
+        }`}
+      >
+        <div className="flex flex-col space-y-6 h-full overflow-y-auto pb-10">
+          {data.navigation.map((item) => (
             <Link
-              to="/contact-us"
+              key={item.name}
+              to={item.path}
               onClick={() => setIsOpen(false)}
-              className="w-full py-4 bg-primary text-primary-foreground text-center rounded-xl font-bold text-lg"
+              className="text-2xl font-medium text-foreground hover:text-primary transition-colors block"
             >
-              Get Started Now
+              {item.name}
             </Link>
-          </div>
+          ))}
+          <hr className="border-border opacity-50" />
+          <Link
+            to="/contact-us"
+            onClick={() => setIsOpen(false)}
+            className="w-full py-4 bg-primary text-primary-foreground text-center rounded-xl font-bold text-lg shadow-lg active:scale-95 transition-transform"
+          >
+            Get Started Now
+          </Link>
         </div>
-      )}
+      </div>
     </>
   );
 }
